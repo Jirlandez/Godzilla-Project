@@ -4,7 +4,7 @@ Servo doorservo;
 
 // Rodolfo 3-4
 
-// Connor 5-6
+// Conner 5-6
 
 // Code that runs once
 void setup() {
