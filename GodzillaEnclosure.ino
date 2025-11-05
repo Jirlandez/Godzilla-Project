@@ -13,7 +13,7 @@ doorservo.attach(#) // Replace '#' with pin number
 
 // Rodolfo Setup 3-4
 
-// Connor Setup 5-6
+// Conner Setup 5-6
 
 }
 
@@ -24,6 +24,6 @@ doorservo.write(val) // Replace with speed we decide for servo
   
 // Rodolfo Loop 3-4
 
-// Connor Loop 5-6
+// Conner Loop 5-6
 
 }
