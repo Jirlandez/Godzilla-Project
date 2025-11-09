@@ -12,6 +12,12 @@ void setup() {
 doorservo.attach(#) // Replace '#' with pin number
 
 // Rodolfo Setup 3-4
+/* Panel 3: Godzilla dodges attack.
+Soldier motioning direction by waving arm - (1) 180 servo
+Godzilla is manully moved from point A (left) to point B (right) - (1) Copper tape Switch */
+/* Panel 4: Godzilla Charges beam.
+Pressing crystal cutouts (batteries) on Godzilla's back) - (3) Copper tape switch
+Light emited by godzilla's mouth changes - (1) LED light */
 
 // Connor Setup 5-6
 
