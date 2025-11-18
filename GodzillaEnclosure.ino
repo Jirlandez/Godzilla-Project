@@ -1,64 +1,80 @@
 //Godzilla Enclosure
 #include <Servo.h>
-const int STOP = 90 // For all servos if we want them to stop
-// Julian 1
-Servo doorservo;
-const int doorPin = 2; // We can change these specific pins later if needed
-const int knobPin = 7;
 
-int lastKnobState = HIGH; // These are for the copper tape switch
-int currentKnobState;
+// Julian
+// Panel 1 (Awakening)
+Servo doorservo; // attached to pin 3 in setup (180)
+const int buttonPin = 2; // Panel one switch 
+int buttonState = 0;
+int previousButtonState = 0;
+// Panel 2 (Defense)
 
-const int eyeside = 180; // The side of the door Ghidorah's eye is on
-const int wallside = 0; // The normal building wall side
 
-// Julian 2
+// Rodolfo
+// Panel 3 (Dodge)
+// Panel 4 (Charge)
 
-// Rodolfo 3-4
+// Conner
+// Panel 5 (Attack)
+Servo myservo5; // attached to pin 10 in setup
+const int buttonPin5 = 12;
+int buttonState5 = 0;
+int previousButtonState5 = 0;
+// Panel 6 (Celebrate)
 
-// Connor 5-6
-
-// Code that runs once
 void setup() {
-// Julian Setup 1-2
-doorservo.attach(doorPin); 
-pinMode(knobPin, INPUT_PULLUP); 
-doorservo.write(wallside); // Starting position of "door"
-
-// Rodolfo Setup 3-4
-/* Panel 3: Godzilla dodges attack.
-Soldier motioning direction by waving arm - (1) 180 servo
-Godzilla is manully moved from point A (left) to point B (right) - (1) Copper tape Switch */
-/* Panel 4: Godzilla Charges beam.
-Pressing crystal cutouts (batteries) on Godzilla's back) - (3) Copper tape switch
-Light emited by godzilla's mouth changes - (1) LED light */
-
-// Connor Setup 5-6
-
+  // put your setup code here, to run once:
+  //Panel 1 Switch
+  myservo.attach(3);
+  pinMode(buttonPin, INPUT);
+  //Panel 5 Switch
+  myservo5.attach(10);
+  pinMode(buttonPin5, INPUT);
+  Serial.begin(9600);
 }
 
-// Code that runs repeatedly
-void loop() {
-// Julian Loop 1-2
-currentKnobState = digitalRead(knobPin);
-// One flaw is if you accidently turn on/off the switch while the door is still moving it could mess up the way the door is facing
-// For when the copper switch is switched(?)
-if (currentKnobState == LOW && lastKnobState == HIGH) { //Anyone know a better way to write this maybe?
-    doorservo.write(eyeside); 
-    delay(500); // We'll have to play around with this value to make the door turn good
-    doorservo.write(STOP); 
+void loop() {// put your main code here, to run repeatedly:
+  //Panel 1 Switch
+  buttonState = digitalRead(buttonPin);
+  if (buttonState != previousButtonState) {
+    if (buttonState == HIGH) {
+      Serial.println("Switch Pressed! Boulder hit ground");
+    } else {
+      Serial.println("button released, Boulder removed");
+    }
+  }
+  previousButtonState = buttonState;
+
+  // Panel 1 Servo code
+  if (digitalRead(buttonPin) == HIGH){
+    doorservo.write(180); // tells the servo what angle to turn to 0 - 180
+  
+  } else {
+    doorservo.write(0);
+  }
+  // Panel 3: Claw Attack
+  // Panel 4: Godzilla Charge
+  Panel5();
 }
-// For when the copper switch is unswitched(?)
-if (currentKnobState == HIGH && lastKnobState == LOW) {
-    doorservo.write(wallside); 
-    delay(500); // Same thing as the other delay
-    doorservo.write(STOP); 
+// Panel 5 must be here or the code will get error "x was not declared in this scope"
+void Panel5() {
+   //Panel 5 Switch. Activated when pressing the beam on King Ghidorah's throat.
+  buttonState5 = digitalRead(buttonPin5);
+  if (buttonState5 != previousButtonState5) {
+    if (buttonState5 == HIGH) {
+      Serial.println("Switch Pressed! Beam on Ghidorah");
+    } else {
+      Serial.println("button released, Beam off ghidorah");
+    }
+  }
+  previousButtonState5 = buttonState5;
+  // Panel 5 Servo code. Switches facial expression of king Ghidorah
+  if (digitalRead(buttonPin5) == HIGH){
+    myservo5.write(20); // tells the servo what angle to turn to 0 - 180 
+    //Serial.println("panel 5 Switch High");
+  } else {
+    myservo5.write(90);
+    //Serial.println("Panel 5 switch Low");
+  } 
 }
 
-lastKnobState = currentKnobState; //Maybe a delay so if you accidently turn on/off the switch it doesn't switch the panel
-
-// Rodolfo Loop 3-4
-
-// Connor Loop 5-6
-
-}
