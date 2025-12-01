@@ -164,7 +164,7 @@ void Panel6() {
     }
   }
   previousButtonState6 = buttonState6;
-  // Panel 6 Servo code. Spinning hand attack
+  // Panel 6 Servo code. Rotating Flag movement
   if (digitalRead(buttonPin6) == HIGH){
     myservo6.write(70); // tells the servo what angle to turn to 0 - 180 
     //Serial.println("panel 6 Switch High");
