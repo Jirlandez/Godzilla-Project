@@ -31,6 +31,10 @@ const int buttonPin5 = 12;
 int buttonState5 = 0;
 int previousButtonState5 = 0;
 // Panel 6 (Celebrate)
+Servo myservo6; // attached to pin 11 in setup
+const int buttonPin6 = 13;
+int buttonState6 = 0;
+int previousButtonState6 = 0;
 
 void setup() {
   // put your setup code here, to run once:
@@ -47,6 +51,9 @@ void setup() {
   //Panel 5 Switch
   myservo5.attach(10);
   pinMode(buttonPin5, INPUT);
+  //Panel 6 Switch
+  myservo6.attach(11);
+  pinMode(buttonPin6, INPUT);
   Serial.begin(9600);
 }
 
@@ -74,6 +81,7 @@ void loop() {// put your main code here, to run repeatedly:
   Panel5();
   Panel3();
   Panel4();
+  Panel6();
   //analogWrite(ledPin, 255);
   //myservo3.write(180); // tells the servo what angle to turn to 0 - 180 
 }
@@ -100,7 +108,7 @@ void Panel5() {
 }
 // Panel 3 start
 void Panel3() {
-   //Panel 5 Switch. Activated when pressing the beam on King Ghidorah's throat.
+   //Panel 3 Switch. Activated when moving Godzilla to safe area
   buttonState3 = digitalRead(buttonPin3);
   if (buttonState3 != previousButtonState3) {
     if (buttonState3 == HIGH) {
@@ -111,7 +119,7 @@ void Panel3() {
   }
   
   previousButtonState3 = buttonState3;
-  // Panel 5 Servo code. Switches facial expression of king Ghidorah
+  // Panel 3 Servo code. Spinning hand attack
   if (digitalRead(buttonPin3) == HIGH){
     myservo3.write(20); // tells the servo what angle to turn to 0 - 180 
     //Serial.println("panel 5 Switch High");
@@ -133,7 +141,7 @@ void Panel4() {
   }
   
   previousButtonState4 = buttonState4;
-  // Panel 4 Servo code. Switches facial expression of king Ghidorah
+  // Panel 4 LED. Godzilla's light change
   if (digitalRead(buttonPin4) == HIGH){
     analogWrite(ledPin, 255);
     //myservo4.write(20); // tells the servo what angle to turn to 0 - 180 
@@ -142,5 +150,26 @@ void Panel4() {
     analogWrite(ledPin, 0);
     //myservo4.write(90);
     //Serial.println("Panel 5 switch Low");
+  }
+} 
+// Panel 6 start
+void Panel6() {
+   //Panel 6 Switch. Activated when placing Ghidorah's head on godzilla's hand
+  buttonState6 = digitalRead(buttonPin6);
+  if (buttonState6 != previousButtonState6) {
+    if (buttonState6 == HIGH) {
+      Serial.println("Switch 6 Pressed! Godzilla has Ghidorah's head");
+    } else {
+      Serial.println("button 6 released, Godzilla does not have Ghidorah's head");
+    }
+  }
+  previousButtonState6 = buttonState6;
+  // Panel 6 Servo code. Spinning hand attack
+  if (digitalRead(buttonPin6) == HIGH){
+    myservo6.write(70); // tells the servo what angle to turn to 0 - 180 
+    //Serial.println("panel 6 Switch High");
+  } else {
+    myservo6.write(90);
+    //Serial.println("Panel 6 switch Low");
   }
 } 
